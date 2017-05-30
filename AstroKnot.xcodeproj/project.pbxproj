@@ -15,6 +15,7 @@
 		7C92EFB51EDD446800DFC110 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C92EFB41EDD446800DFC110 /* Assets.xcassets */; };
 		7C92EFB81EDD446800DFC110 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C92EFB61EDD446800DFC110 /* LaunchScreen.storyboard */; };
 		7C92EFC01EDD490000DFC110 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C92EFBF1EDD490000DFC110 /* MathUtils.swift */; };
+		7C92EFC21EDDCE8800DFC110 /* GameSceneBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C92EFC11EDDCE8800DFC110 /* GameSceneBase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		7C92EFB71EDD446800DFC110 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7C92EFB91EDD446800DFC110 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C92EFBF1EDD490000DFC110 /* MathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
+		7C92EFC11EDDCE8800DFC110 /* GameSceneBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			children = (
 				7C92EFA71EDD446800DFC110 /* AppDelegate.swift */,
 				7C92EFAB1EDD446800DFC110 /* Actions.sks */,
+				7C92EFC11EDDCE8800DFC110 /* GameSceneBase.swift */,
 				7C92EFAD1EDD446800DFC110 /* GameScene.swift */,
 				7C92EFAF1EDD446800DFC110 /* GameViewController.swift */,
 				7C92EFB11EDD446800DFC110 /* Main.storyboard */,
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C92EFAE1EDD446800DFC110 /* GameScene.swift in Sources */,
+				7C92EFC21EDDCE8800DFC110 /* GameSceneBase.swift in Sources */,
 				7C92EFC01EDD490000DFC110 /* MathUtils.swift in Sources */,
 				7C92EFB01EDD446800DFC110 /* GameViewController.swift in Sources */,
 				7C92EFA81EDD446800DFC110 /* AppDelegate.swift in Sources */,

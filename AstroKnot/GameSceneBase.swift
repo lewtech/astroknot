@@ -1,10 +1,9 @@
 //llewellyn flauta csc 491 hw3
-//obstacles from from top downward...but blocking them off, don't need
 
 import SpriteKit
 import CoreMotion
 
-class GameScene: SKScene {
+class GameSceneBase: SKScene {
     var hero = SKSpriteNode(imageNamed: "Spaceship")
     let obstacle = SKSpriteNode(imageNamed: "obstacle")
     let astronaut = SKSpriteNode(imageNamed: "astronaut")
@@ -47,11 +46,10 @@ class GameScene: SKScene {
         //setupCoreMotion()
 
         spawnHero()
-    //introAstronautSprite()
         // spawnObstacle()
-         spawnAstronaut()
+        // spawnAstronaut()
 
-/*        run(SKAction.repeatForever(
+        run(SKAction.repeatForever(
             SKAction.sequence([SKAction.run() { [weak self] in
                 self?.spawnObstacle()
                 },
@@ -62,7 +60,6 @@ class GameScene: SKScene {
                 self?.spawnAstronaut()
                 },
                                SKAction.wait(forDuration: 4.3)])))
- */
 
 
     }
@@ -77,7 +74,10 @@ class GameScene: SKScene {
         }
         lastUpdateTime = currentTime
 
-
+        //accelerometer changes the gravity point so the ship moves toward the gravity source depending on tilt of device
+        if let accelerometerData = motionManager.accelerometerData {
+            physicsWorld.gravity = CGVector(dx: accelerometerData.acceleration.x * -25, dy: accelerometerData.acceleration.y * 25)
+        }
 
         //move the ship
         move(sprite: hero, velocity: velocity)
@@ -85,7 +85,7 @@ class GameScene: SKScene {
         //rotate the ship in direction of the move on touches
         rotate(sprite: hero, direction: velocity)
         checkCollisions()
-        //print (hero.position)
+        print (hero.position)
     }
 
 
@@ -122,7 +122,6 @@ class GameScene: SKScene {
         let touchLocation = touch.location(in: self)
         sceneTouched(touchLocation:
             touchLocation)
-        print (touchLocation)
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -165,24 +164,24 @@ class GameScene: SKScene {
     }
 
     //MARK: COREMOTION
-    //    func setupCoreMotion() {
-    //        motionManager.accelerometerUpdateInterval = 0.2
-    //        let queue = OperationQueue()
-    //        motionManager.startAccelerometerUpdates(to: queue, withHandler:
-    //            {
-    //                accelerometerData, error in
-    //                guard let accelerometerData = accelerometerData else{
-    //                    return
-    //                }
-    //                let acceleration = accelerometerData.acceleration
-    //                self.xAcceleration = (CGFloat(acceleration.x) * 0.75) +
-    //                    (self.xAcceleration * 0.25)
-    //                self.yAcceleration = (CGFloat(acceleration.y) * 0.75) +
-    //                    (self.yAcceleration * 0.25)
-    //        })
-    //    }
+//    func setupCoreMotion() {
+//        motionManager.accelerometerUpdateInterval = 0.2
+//        let queue = OperationQueue()
+//        motionManager.startAccelerometerUpdates(to: queue, withHandler:
+//            {
+//                accelerometerData, error in
+//                guard let accelerometerData = accelerometerData else{
+//                    return
+//                }
+//                let acceleration = accelerometerData.acceleration
+//                self.xAcceleration = (CGFloat(acceleration.x) * 0.75) +
+//                    (self.xAcceleration * 0.25)
+//                self.yAcceleration = (CGFloat(acceleration.y) * 0.75) +
+//                    (self.yAcceleration * 0.25)
+//        })
+//    }
 
-    //MARK: SPAWN-CREATE
+    //MARK: SPAWN
 
     func spawnHero(){
         //create spaceship, give spaceship a physicsBody
@@ -191,24 +190,35 @@ class GameScene: SKScene {
         hero.physicsBody = SKPhysicsBody(circleOfRadius: hero.size.width / 2)
         hero.physicsBody!.allowsRotation = true
         hero.physicsBody!.linearDamping = 5.0
-        hero.position = CGPoint (x: 150, y: 150)
-//        hero.position = CGPoint(x: 96, y: 0)
+        hero.position = CGPoint (x: size.width/2, y: size.height/2)
+        hero.position = CGPoint(x: 96, y: 0)
         hero.setScale(0.33)
         hero.name = "hero"
         addChild(hero)
 
-        //let wait = SKAction.wait(forDuration: 0.25)
-//        let moveRandom = SKAction.moveBy(x: CGFloat.random(
-//            min: playableRect.minX + obstacle.size.height/2,
-//            max: playableRect.maxX - obstacle.size.height/2), y:CGFloat.random(min: playableRect.minY + obstacle.size.height/2,
-//                                                                             max: playableRect.maxY - obstacle.size.height/2), duration: 0.25)
-        //let sequence = SKAction.sequence([moveRandom,wait])
-        //hero.run(sequence)
 
 
     }
 
-    func introAstronautSprite() {
+    func spawnObstacle() {
+        let obstacle = SKSpriteNode(imageNamed: "obstacle")
+        obstacle.name = "obstacle"
+        //obstacle.setScale(3.0)
+        obstacle.position = CGPoint(
+            x: size.width + obstacle.size.width/2,
+            y: CGFloat.random(
+                min: playableRect.minY + obstacle.size.height/2,
+                max: playableRect.maxY - obstacle.size.height/2))
+        addChild(obstacle)
+
+        let actionMove =
+            SKAction.moveTo(x: -obstacle.size.width/2, duration: 2.0)
+        let actionRemove = SKAction.removeFromParent()
+        obstacle.run(SKAction.sequence([actionMove, actionRemove]))
+        //
+    }
+
+    func spawnAstronaut() {
         let astronaut = SKSpriteNode(imageNamed: "astronaut")
         astronaut.name = "astronaut"
         astronaut.position = CGPoint(
@@ -221,74 +231,10 @@ class GameScene: SKScene {
         //astronaut.setScale(2.0)
         addChild(astronaut)
 
-        let actionMove = SKAction.moveBy(x: CGFloat.random(
-            min: playableRect.minX + obstacle.size.height/2,
-            max: playableRect.maxX - obstacle.size.height/2), y:CGFloat.random(min: playableRect.minY + obstacle.size.height/2,
-                                                                               max: playableRect.maxY - obstacle.size.height/2), duration: 2.0)
-        let wait = SKAction.wait(forDuration: 5.0)
-        let actionRotate = SKAction.rotate(byAngle: 1.0, duration: 2.0)
-        let actionRemove = SKAction.removeFromParent()
-        astronaut.run(SKAction.sequence([actionRotate, actionRemove]))
-
-    }
-
-    func spawnObstacle() {
-/*        let obstacle = SKSpriteNode(imageNamed: "obstacle")
-        obstacle.name = "obstacle"
-        //obstacle.setScale(3.0)
-        obstacle.position = CGPoint(
-            x: size.width + obstacle.size.width/2,
-            y: CGFloat.random(
-                min: playableRect.minY + obstacle.size.height/2,
-                max: playableRect.maxY - obstacle.size.height/2))
-        addChild(obstacle)
-
         let actionMove =
-            SKAction.moveTo(x: -obstacle.size.width/2, duration: 2.0)
-        let moveRandom = SKAction.moveBy(x: CGFloat.random(
-            min: playableRect.minX + obstacle.size.height/2,
-            max: playableRect.maxX - obstacle.size.height/2), y:CGFloat.random(min: playableRect.minY + obstacle.size.height/2,
-                                                                               max: playableRect.maxY - obstacle.size.height/2), duration: 0.25)
-
-        let actionRemove = SKAction.removeFromParent()*/
-        //let sequence = SKAction.sequence([moveRandom])
-        //obstacle.run(sequence)
-        //
-        let obstacle = SKSpriteNode(imageNamed: "obstacle")
-        obstacle.name = "obstacle"
-        //obstacle.setScale(3.0)
-        obstacle.position = CGPoint(
-            x: CGFloat.random(
-                min: playableRect.minX + obstacle.size.width/2,
-                max: playableRect.maxX - obstacle.size.width/2),
-            y: size.height + obstacle.size.height/2)
-        addChild(obstacle)
-
-        let actionMove =
-            SKAction.moveTo(y: -obstacle.size.height/2, duration: 2.0)
+            SKAction.rotate(byAngle: 1.0, duration: 2.0)
         let actionRemove = SKAction.removeFromParent()
-        obstacle.run(SKAction.sequence([actionMove, actionRemove]))
-        //
-    }
-
-    func spawnAstronaut() {
-        let astronaut = SKSpriteNode(imageNamed: "astronaut")
-        astronaut.name = "astronaut"
-        astronaut.position = CGPoint(x:800,y:800)
-        //astronaut.setScale(2.0)
-        addChild(astronaut)
-
-        let actionMove = SKAction.moveBy(x: CGFloat.random(
-            min: playableRect.minX + obstacle.size.height/2,
-            max: playableRect.maxX - obstacle.size.height/2), y:CGFloat.random(min: playableRect.minY + obstacle.size.height/2,
-                                                                               max: playableRect.maxY - obstacle.size.height/2), duration: 2.0)
-
-        let actionRotate = SKAction.rotate(byAngle: 1.0, duration: 5.0)
-        let actionReverseRotate = SKAction.rotate(byAngle: -1.0, duration: 5.0)
-        let actionRemove = SKAction.removeFromParent()
-        let wait = SKAction.wait(forDuration: 1.0)
-        
-        astronaut.run(SKAction.sequence([actionRotate, wait,actionReverseRotate]))
+        astronaut.run(SKAction.sequence([actionMove, actionRemove]))
 
     }
     //MARK: COLLISION DETECTION
@@ -336,7 +282,7 @@ class GameScene: SKScene {
 
 
         }
-        
+
         enumerateChildNodes(withName: "astronaut"){node, _ in
             let astronaut = node as! SKSpriteNode
             if node.frame.insetBy(dx: 20, dy: 30).intersects(self.hero.frame){

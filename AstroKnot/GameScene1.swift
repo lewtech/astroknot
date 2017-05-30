@@ -334,7 +334,7 @@ class GameScene1: SKScene {
          view?.presentScene(gameOverScene, transition: reveal)
 
          }*/
-        astronaut.removeFromParent()
+        //astronaut.removeFromParent()
     }
 
     func heroHitObstacle(){

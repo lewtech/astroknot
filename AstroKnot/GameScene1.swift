@@ -53,13 +53,10 @@ class GameScene1: SKScene {
          },
          SKAction.wait(forDuration: 2.0)])))
 */
-         run(SKAction.repeatForever(
-         SKAction.sequence([SKAction.run() { [weak self] in
-         self?.spawnAstronaut()
-         },
-         SKAction.wait(forDuration: 3.3)])))
-
-
+        let actionSpawnAstronaut = SKAction.sequence([SKAction.run() { [weak self] in
+            self?.spawnAstronaut()
+            },SKAction.wait(forDuration: 3.3)])
+        run(SKAction.repeat(actionSpawnAstronaut, count: 7))
 
     }
 

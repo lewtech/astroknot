@@ -278,14 +278,22 @@ class GameScene: SKScene {
         let actionMove = SKAction.moveBy(x: CGFloat.random(
             min: playableRect.minX + obstacle.size.height/2,
             max: playableRect.maxX - obstacle.size.height/2), y:CGFloat.random(min: playableRect.minY + obstacle.size.height/2,
-                                                                               max: playableRect.maxY - obstacle.size.height/2), duration: 2.0)
+                                                                               max: playableRect.maxY - obstacle.size.height/2), duration: 0.5)
 
         let actionRotate = SKAction.rotate(byAngle: 1.0, duration: 5.0)
-        let actionReverseRotate = SKAction.rotate(byAngle: -1.0, duration: 5.0)
+        let actionReverseRotate = actionRotate.reversed()
+        let rotate = SKAction.sequence([actionRotate,actionReverseRotate])
         let actionRemove = SKAction.removeFromParent()
         let wait = SKAction.wait(forDuration: 1.0)
+        let scaleBig = SKAction.scale(to: 5.0, duration: 3.0)
+        let scaleSmall = SKAction.scale(to: 2.0, duration: 3.0)
+
+        let fadeIn = SKAction.fadeIn(withDuration: 0.2)
+        let fadeOut = SKAction.fadeOut(withDuration: 0.2)
+        let fadeInOut = SKAction.sequence([fadeIn,fadeOut])
+        let fadeInOutRepeat5 = SKAction.repeat(fadeInOut,count: 10)
         
-        astronaut.run(SKAction.sequence([actionRotate, wait,actionReverseRotate]))
+        astronaut.run(SKAction.sequence([rotate, scaleBig, fadeInOutRepeat5, fadeIn, scaleSmall]))
 
     }
     //MARK: COLLISION DETECTION

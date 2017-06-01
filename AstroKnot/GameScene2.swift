@@ -43,12 +43,14 @@ class GameScene2: SKScene {
         //setupCoreMotion()
 
         spawnHero()
-        spawnEnemy(type: "spike2", x: 1000, y: 1900)
-        spawnEnemy(type: "spike2", x: 1200, y: 1900)
-        spawnEnemy(type: "spike2", x: 1000, y: 1900)
-        spawnEnemy(type: "spike2", x: 800, y: 1900)
-        spawnEnemy(type: "spike2", x: 600, y: 1900)
-        spawnEnemy(type: "spike2", x: 400, y: 1900)
+        spawnEnemy(type: "razor", x: 1000, y: 1700)
+        spawnEnemy(type: "razor", x: 1200, y: 1700)
+        spawnEnemy(type: "razor", x: 1000, y: 1700)
+        spawnEnemy(type: "razor", x: 800, y: 1700)
+        spawnEnemy(type: "razor", x: 600, y: 1700)
+        spawnEnemy(type: "razor", x: 400, y: 1700)
+        spawnEnemy(type: "spike", x: 500, y: 1900)
+        spawnEnemy(type: "spike", x: 1100, y: 1900)
         //introAstronautSprite()
         // spawnObstacle()
         //spawnAstronaut()
@@ -280,11 +282,12 @@ class GameScene2: SKScene {
 //                max: playableRect.maxX - obstacle.size.width/2),
 //            y: 1900)
 //        addChild(spike)
+//        let actionMoveLeft = SKAction.move(by: CGVector(1.0), duration: 2.0)
 
         let actionMove =
             SKAction.moveTo(y: -obstacle.size.height/2, duration: 2.0)
         let actionRemove = SKAction.removeFromParent()
-        //obstacle.run(SKAction.sequence([actionMove, actionRemove]))
+        enemy.run(SKAction.sequence([actionMoveLeft]))
         //
     }
 

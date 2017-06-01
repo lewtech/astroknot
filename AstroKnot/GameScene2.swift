@@ -136,7 +136,7 @@ class GameScene2: SKScene {
     //MARK: TOUCH EVENTS
     func sceneTouched (touchLocation:CGPoint){
         MoveHeroToward(location: touchLocation)
-        print (touchLocation)
+        spawnEnergyBolt(touchLocation: touchLocation)
     }
 
 
@@ -330,6 +330,19 @@ class GameScene2: SKScene {
 
         astronaut.run(SKAction.sequence([actionRotate, wait,actionReverseRotate, actionRemove]))
 
+    }
+
+    func spawnEnergyBolt (touchLocation: CGPoint){
+        let energyBolt = SKSpriteNode(imageNamed: "energyBolt")
+        energyBolt.position = hero.position
+        let offset = touchLocation - energyBolt.position
+        addChild(energyBolt)
+        let direction = offset.normalized()
+        let shootAmount = direction * 2000
+        let realDest = shootAmount + energyBolt.position
+        let actionMove = SKAction.move(to:realDest, duration: 2.0)
+        let actionMoveDone = SKAction.removeFromParent()
+        energyBolt.run(SKAction.sequence([actionMove,actionMoveDone]))
     }
     //MARK: COLLISION DETECTION
 

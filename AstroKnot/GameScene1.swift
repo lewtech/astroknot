@@ -321,16 +321,16 @@ class GameScene1: SKScene {
         astronaut.removeAllActions()
         astronaut.zRotation = 0
 
-        /*        astronautsSaved = astronautsSaved + 1
-         if (astronautsSaved > 7) {
-         gameOver = true
-         print ("you win!")
-         let gameOverScene = GameOver(size: size, won: true)
-         gameOverScene.scaleMode = scaleMode
-         let reveal = SKTransition.flipHorizontal(withDuration: 1.5)
-         view?.presentScene(gameOverScene, transition: reveal)
-
-         }*/
+//                astronautsSaved = astronautsSaved + 1
+//         if (astronautsSaved > 7) {
+//         gameOver = true
+//         print ("you win!")
+//         let gameOverScene = GameOver(size: size, won: true)
+//         gameOverScene.scaleMode = scaleMode
+//         let reveal = SKTransition.flipHorizontal(withDuration: 1.5)
+//         view?.presentScene(gameOverScene, transition: reveal)
+//
+//         }
         //astronaut.removeFromParent()
     }
 
@@ -343,21 +343,8 @@ class GameScene1: SKScene {
     }
 
     func checkCollisions(){
-        //var hitObstacles: [SKSpriteNode] = []
+
         var hitAstronaut: [SKSpriteNode] = []
-
-        /*enumerateChildNodes(withName: "obstacle"){node, _ in
-            let obstacle = node as! SKSpriteNode
-            if node.frame.insetBy(dx: 20, dy: 30).intersects(self.hero.frame){
-                hitObstacles.append(obstacle)
-            }
-        }
-
-        for obstacle in hitObstacles {
-            heroHitObstacle()
-
-
-        } */
 
         enumerateChildNodes(withName: "astronaut"){node, _ in
             let astronaut = node as! SKSpriteNode

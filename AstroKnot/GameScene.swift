@@ -90,10 +90,9 @@ class GameScene: SKScene {
     //MARK: MOVEMENT
 
     func move (sprite: SKSpriteNode, velocity: CGPoint) {
-        //1
         let amountToMove = CGPoint(x: velocity.x * CGFloat(dt),
                                    y: velocity.y * CGFloat(dt))
-        //print("Amount to move: \(amountToMove)")
+
         sprite.position += amountToMove
     }
 

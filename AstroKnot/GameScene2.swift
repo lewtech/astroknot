@@ -43,14 +43,14 @@ class GameScene2: SKScene {
         //setupCoreMotion()
 
         spawnHero()
-        spawnEnemy(type: "razor", x: 1000, y: 1700)
-        spawnEnemy(type: "razor", x: 1200, y: 1700)
-        spawnEnemy(type: "razor", x: 1000, y: 1700)
-        spawnEnemy(type: "razor", x: 800, y: 1700)
-        spawnEnemy(type: "razor", x: 600, y: 1700)
-        spawnEnemy(type: "razor", x: 400, y: 1700)
-        spawnEnemy(type: "spike", x: 500, y: 1900)
-        spawnEnemy(type: "spike", x: 1100, y: 1900)
+//        spawnEnemy(type: "razor", x: 1000, y: 1700)
+//        spawnEnemy(type: "razor", x: 1200, y: 1700)
+//        spawnEnemy(type: "razor", x: 1000, y: 1700)
+//        spawnEnemy(type: "razor", x: 800, y: 1700)
+//        spawnEnemy(type: "razor", x: 600, y: 1700)
+//        spawnEnemy(type: "razor", x: 400, y: 1700)
+//        spawnEnemy(type: "spike", x: 500, y: 1900)
+//        spawnEnemy(type: "spike", x: 1100, y: 1900)
         //introAstronautSprite()
         // spawnObstacle()
         //spawnAstronaut()
@@ -61,10 +61,15 @@ class GameScene2: SKScene {
          },
          SKAction.wait(forDuration: 2.0)])))
          */
-        let actionSpawnAstronaut = SKAction.sequence([SKAction.run() { [weak self] in
-            self?.spawnAstronaut()
-            },SKAction.wait(forDuration: 3.3)])
-        run(SKAction.repeat(actionSpawnAstronaut, count: 7))
+        let actionSpawnEnemy = SKAction.sequence([SKAction.run() { [weak self] in
+            self?.spawnEnemy(type: "razor", x: 1200, y: 1700)
+            },SKAction.wait(forDuration: 0.5)])
+        run(SKAction.repeat(actionSpawnEnemy, count: 6))
+
+        let actionSpawnSpike = SKAction.sequence([SKAction.run() { [weak self] in
+            self?.spawnEnemy(type: "spike", x: 400, y: 1900)
+            },SKAction.wait(forDuration: 1.5)])
+        run(SKAction.repeat(actionSpawnSpike, count: 2))
 
     }
 
@@ -271,6 +276,9 @@ class GameScene2: SKScene {
         enemy.name = type
         enemy.setScale(0.25)
         enemy.position = CGPoint(x: x,y: y)
+        if type == "spike" {
+            enemy.position = CGPoint(x:400,y:y)
+        }
         addChild(enemy)
 
 //        let spike = SKSpriteNode(imageNamed: "spike2")
@@ -284,10 +292,16 @@ class GameScene2: SKScene {
 //        addChild(spike)
 //        let actionMoveLeft = SKAction.move(by: CGVector(1.0), duration: 2.0)
 
-        let actionMove =
-            SKAction.moveTo(y: -obstacle.size.height/2, duration: 2.0)
+        let actionMoveLeft =
+            SKAction.moveTo(x: (400), duration: 2.0)
+        let actionMoveRight =
+            SKAction.moveTo(x:  1200, duration: 2.0)
+        let actionMoveLeftRight = SKAction.sequence([actionMoveLeft, actionMoveRight])
         let actionRemove = SKAction.removeFromParent()
-        enemy.run(SKAction.sequence([actionMoveLeft]))
+        if type == "razor" {
+            enemy.run(SKAction.repeatForever(actionMoveLeftRight))}
+        if type == "spike" {
+            enemy.run(SKAction.repeatForever(actionMoveLeftRight))}
         //
     }
 

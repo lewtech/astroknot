@@ -14,9 +14,6 @@ class GameScene2: SKScene {
     let movePointsPerSecond: CGFloat = 400.0
     var velocity = CGPoint.zero
     let playableRect: CGRect
-    let motionManager = CMMotionManager()
-    //var xAcceleration = CGFloat(0)
-    //var yAcceleration = CGFloat(0)
     var astronautCount = 0
     var astronautsSaved = 0
     var gameOver = false
@@ -43,24 +40,7 @@ class GameScene2: SKScene {
         //setupCoreMotion()
 
         spawnHero()
-//        spawnEnemy(type: "razor", x: 1000, y: 1700)
-//        spawnEnemy(type: "razor", x: 1200, y: 1700)
-//        spawnEnemy(type: "razor", x: 1000, y: 1700)
-//        spawnEnemy(type: "razor", x: 800, y: 1700)
-//        spawnEnemy(type: "razor", x: 600, y: 1700)
-//        spawnEnemy(type: "razor", x: 400, y: 1700)
-//        spawnEnemy(type: "spike", x: 500, y: 1900)
-//        spawnEnemy(type: "spike", x: 1100, y: 1900)
-        //introAstronautSprite()
-        // spawnObstacle()
-        //spawnAstronaut()
 
-        /*        run(SKAction.repeatForever(
-         SKAction.sequence([SKAction.run() { [weak self] in
-         self?.spawnObstacle()
-         },
-         SKAction.wait(forDuration: 2.0)])))
-         */
         let actionSpawnEnemy = SKAction.sequence([SKAction.run() { [weak self] in
             self?.spawnEnemy(type: "razor", x: 1200, y: 1700)
             },SKAction.wait(forDuration: 0.5)])

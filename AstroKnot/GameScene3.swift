@@ -5,6 +5,7 @@ import SpriteKit
 import CoreMotion
 
 class GameScene3: SKScene {
+    var nextIcon = SKSpriteNode(imageNamed: "next")
     var hero = SKSpriteNode(imageNamed: "Spaceship")
     let obstacle = SKSpriteNode(imageNamed: "obstacle")
     let astronaut = SKSpriteNode(imageNamed: "astronaut")
@@ -43,7 +44,11 @@ class GameScene3: SKScene {
         self.physicsBody = borderBody
 
         spawnHero()
- 
+
+        nextIcon.setScale(0.5)
+        nextIcon.position = CGPoint(x:(size.width - 100 ), y:(size.height - 100))
+        addChild(nextIcon)
+
         let actionSpawnEnemy = SKAction.sequence([SKAction.run() { [weak self] in
             self?.spawnEnemy(type: "spike", x: 1200, y: 2000)
             },SKAction.wait(forDuration: 0.5)])
@@ -133,6 +138,12 @@ class GameScene3: SKScene {
         sceneTouched(touchLocation:
             touchLocation)
         //print (touchLocation)
+        if nextIcon.contains(touch.location(in: self)){
+            let transition = SKTransition.reveal(with: .left, duration:1.0)
+            let nextScene = GameScene(size: size)
+            nextScene.scaleMode = scaleMode
+            view?.presentScene(nextScene, transition: transition)
+        }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

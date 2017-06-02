@@ -5,6 +5,7 @@ import SpriteKit
 import CoreMotion
 
 class GameScene1: SKScene {
+    var nextIcon = SKSpriteNode(imageNamed: "next")
     var hero = SKSpriteNode(imageNamed: "Spaceship")
     let obstacle = SKSpriteNode(imageNamed: "obstacle")
     let astronaut = SKSpriteNode(imageNamed: "astronaut")
@@ -43,6 +44,9 @@ class GameScene1: SKScene {
         //setupCoreMotion()
 
         spawnHero()
+        nextIcon.setScale(0.5)
+        nextIcon.position = CGPoint(x:(size.width - 100 ), y:(size.height - 100))
+        addChild(nextIcon)
         //introAstronautSprite()
         // spawnObstacle()
         //spawnAstronaut()
@@ -135,6 +139,12 @@ class GameScene1: SKScene {
         sceneTouched(touchLocation:
             touchLocation)
         //print (touchLocation)
+        if nextIcon.contains(touch.location(in: self)){
+            let transition = SKTransition.reveal(with: .left, duration:1.0)
+            let nextScene = GameScene2(size: size)
+            nextScene.scaleMode = scaleMode
+            view?.presentScene(nextScene, transition: transition)
+        }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

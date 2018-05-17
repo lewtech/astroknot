@@ -6,7 +6,7 @@ import CoreMotion
 
 class GameScene3: SKScene {
     var nextIcon = SKSpriteNode(imageNamed: "next")
-    var hero = SKSpriteNode(imageNamed: "Spaceship")
+    var hero = SKSpriteNode(imageNamed: "wiz")
     let obstacle = SKSpriteNode(imageNamed: "obstacle")
     let astronaut = SKSpriteNode(imageNamed: "astronaut")
     var lastUpdateTime: TimeInterval = 0
@@ -50,12 +50,12 @@ class GameScene3: SKScene {
         addChild(nextIcon)
 
         let actionSpawnEnemy = SKAction.sequence([SKAction.run() { [weak self] in
-            self?.spawnEnemy(type: "spike", x: 1200, y: 2000)
+            self?.spawnEnemy(type: "dragonBoss", x: 1200, y: 2000)
             },SKAction.wait(forDuration: 0.5)])
         run(SKAction.repeat(actionSpawnEnemy, count: 1))
 
         let actionSpawnSpike = SKAction.sequence([SKAction.run() { [weak self] in
-            self?.spawnEnemy(type: "obstacle", x: 400, y: 1900)
+            self?.spawnEnemy(type: "dragon", x: 400, y: 1900)
             },SKAction.wait(forDuration: 1.5)])
         run(SKAction.repeat(actionSpawnSpike, count: 2))
 
@@ -197,7 +197,7 @@ class GameScene3: SKScene {
 
     func spawnHero(){
         //create spaceship, give spaceship a physicsBody
-        hero = SKSpriteNode(imageNamed: "Spaceship")
+        hero = SKSpriteNode(imageNamed: "wizBroom")
 
         hero.physicsBody = SKPhysicsBody(circleOfRadius: hero.size.width / 2)
         hero.physicsBody!.allowsRotation = true
@@ -209,20 +209,10 @@ class GameScene3: SKScene {
 
         hero.physicsBody?.angularDamping = 0
         //        hero.position = CGPoint(x: 96, y: 0)
-        hero.setScale(0.33)
+        hero.setScale(0.75)
         //hero.zRotation = CGFloat(M_PI/Double(2.0))
         hero.name = "hero"
         addChild(hero)
-
-        //let wait = SKAction.wait(forDuration: 0.25)
-        //        let moveRandom = SKAction.moveBy(x: CGFloat.random(
-        //            min: playableRect.minX + obstacle.size.height/2,
-        //            max: playableRect.maxX - obstacle.size.height/2), y:CGFloat.random(min: playableRect.minY + obstacle.size.height/2,
-        //                                                                             max: playableRect.maxY - obstacle.size.height/2), duration: 0.25)
-        //let sequence = SKAction.sequence([moveRandom,wait])
-        //hero.run(sequence)
-
-
     }
 
     func introAstronautSprite() {
@@ -250,7 +240,7 @@ class GameScene3: SKScene {
     }
 
     func spawnEnemy(type: String,x: CGFloat, y: CGFloat) {
-        print ("spawn enemies")
+      //  print ("spawn enemies")
 
 
         /*        let obstacle = SKSpriteNode(imageNamed: "obstacle")
@@ -276,7 +266,7 @@ class GameScene3: SKScene {
         //
         var enemy = SKSpriteNode(imageNamed: type)
         enemy.name = type
-        enemy.setScale(1.0)
+        enemy.setScale(0.5)
         enemy.physicsBody = SKPhysicsBody(circleOfRadius: hero.size.width / 2)
         enemy.physicsBody!.allowsRotation = true
         enemy.physicsBody!.linearDamping = 0.0
@@ -285,11 +275,7 @@ class GameScene3: SKScene {
         enemy.physicsBody!.mass = 0.00000001
         enemy.position = CGPoint(x: x,y: y)
 enemy.physicsBody?.friction = 0.0
-        if type == "spike" {
-            enemy.position = CGPoint(x:400,y:y)
-            enemy.physicsBody?.affectedByGravity = true
-            enemy.setScale(0.5)
-        }
+
 
         //if type == "obstacle" {
             enemy.physicsBody!.linearDamping = 0.0
@@ -298,10 +284,18 @@ enemy.physicsBody?.friction = 0.0
             enemy.physicsBody?.angularDamping = 0
        // }
 
-        addChild(enemy)
-        if type == "obstacle" {
-            //enemy.physicsBody!.applyImpulse(CGVector(dx: 2.0, dy: -2.0))
+        if type == "dragonBoss" {
+            enemy.position = CGPoint(x:400,y:y)
+            enemy.physicsBody?.affectedByGravity = true
+            enemy.setScale(1.25)
+            enemy.physicsBody!.linearDamping = 1.0
+            enemy.physicsBody?.friction = 1.0
+            enemy.physicsBody?.linearDamping = 1
+            enemy.physicsBody?.angularDamping = 1
         }
+
+        addChild(enemy)
+
 
         //        let spike = SKSpriteNode(imageNamed: "spike2")
         //        spike.name = "spike2"
@@ -318,11 +312,12 @@ enemy.physicsBody?.friction = 0.0
             SKAction.moveTo(x: (400), duration: 2.0)
         let actionMoveRight =
             SKAction.moveTo(x:  1200, duration: 2.0)
+
         let actionMoveLeftRight = SKAction.sequence([actionMoveLeft, actionMoveRight])
         let actionRemove = SKAction.removeFromParent()
         if type == "razor" {
             enemy.run(SKAction.repeatForever(actionMoveLeftRight))}
-        if type == "spike" {
+        if type == "dragonBoss" {
             enemy.run(SKAction.repeatForever(actionMoveLeftRight))}
         //
     }
@@ -356,6 +351,7 @@ enemy.physicsBody?.friction = 0.0
 
     func spawnEnergyBolt (touchLocation: CGPoint){
         let energyBolt = SKSpriteNode(imageNamed: "energyBolt")
+        energyBolt.setScale(2.0)
         energyBolt.position = hero.position
         energyBolt.physicsBody = SKPhysicsBody(circleOfRadius: energyBolt.size.width / 2)
         energyBolt.physicsBody!.allowsRotation = false
